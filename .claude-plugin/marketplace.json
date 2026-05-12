@@ -1,0 +1,23 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "context-handoff",
+  "description": "Save and resume Claude Code session state via handoff.md",
+  "owner": {
+    "name": "se4thvin",
+    "url": "https://github.com/se4thvin"
+  },
+  "plugins": [
+    {
+      "name": "context-handoff",
+      "description": "Write a handoff.md before context runs out and resume cleanly in the next session",
+      "source": ".",
+      "version": "0.1.1",
+      "category": "productivity",
+      "author": {
+        "name": "se4thvin",
+        "url": "https://github.com/se4thvin"
+      },
+      "homepage": "https://github.com/se4thvin/context-handoff"
+    }
+  ]
+}

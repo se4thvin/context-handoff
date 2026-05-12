@@ -33,7 +33,7 @@ Which one? (1-3)
 |---------|--------------|
 | `/handoff` | Write a handoff with a timestamp-only filename. |
 | `/handoff <label>` | Write a handoff with `<label>` appended to the filename (slugified). |
-| `/resume` | Show a picker of recent handoffs, or auto-load if only one exists. |
+| `/resume` | Show a picker of recent handoffs, or auto-summarize if only one exists (then asks before continuing). |
 | `/resume <n>` | Skip the picker, load handoff #n (1-based, newest first). |
 
 You can also just say "write a handoff" or "pick up where we left off" — the skills fire on those phrases too.

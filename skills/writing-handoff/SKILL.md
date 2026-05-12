@@ -46,9 +46,12 @@ If unsure, ASK the user before writing — a one-line confirmation is cheaper th
 
 4. **Write the file using the template below**, populated from the actual conversation so far. Be specific — the next reader has no access to this conversation.
 
-5. **Confirm to the user:**
-   - Print the absolute file path.
-   - Print a one-line summary of what was captured.
+5. **Confirm to the user** using exactly this two-line format:
+   ```
+   ✓ Wrote <absolute-path-to-handoff-file>
+     Captured: <N files changed>, <N commits>, <N next steps>
+   ```
+   The summary line should count concrete items from the handoff body. If a category has zero items, write `0 files changed`, `0 commits`, etc. — don't omit.
 
 ## Template
 
