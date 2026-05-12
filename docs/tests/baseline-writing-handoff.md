@@ -35,3 +35,65 @@ Behavior of a vanilla Claude subagent (general-purpose, opus, no skill installed
 - Structure is ad-hoc, not standardized.
 
 The skill needs to standardize the path (`./.handoffs/YYYY-MM-DD-HHMM.md` or `$HANDOFF_DIR`), filename (timestamped, preserves history), and template (six fixed sections).
+
+---
+
+## GREEN: over-trigger scenario with skill present
+**Date:** 2026-05-12
+**Setup:** Full SKILL.md prepended to the same prompt as RED baseline 1.
+
+**Agent response (verbatim):**
+> I would not fire the writing-handoff skill. The user's message ("ok let's wrap up for today, I'm tired") is a generic session-ending phrase, which the skill explicitly lists as a red flag and a do-NOT-fire condition unless tied to context exhaustion. There's no mention of context limits, no `/handoff` invocation, no auto-compaction reminder, and no explicit request to save state. Per the skill's "If unsure, ASK the user before writing" guidance, my next action would be to simply acknowledge the user's wrap-up in plain text and offer a one-line confirmation question — something like: "Sounds good. Want me to write a handoff file capturing today's progress before you go, or just leave things as-is?" — and wait for their answer before doing anything else.
+
+**Outcome:** PASS. Skill correctly refuses to fire. Bonus: the agent offered a one-line confirmation question, improving on the baseline's passive acknowledgement.
+
+---
+
+## GREEN: under-trigger scenario with skill present
+**Date:** 2026-05-12
+**Setup:** Full SKILL.md prepended. cwd is `/tmp/handoff-test` (no git, no HANDOFF_DIR). Prompt same as RED baseline 2.
+
+**Agent response (verbatim):**
+> # What I Do
+>
+> The user's message ("running really low on context") is an explicit context-exhaustion signal — that's a clear trigger for the writing-handoff skill. No need to ask for confirmation.
+>
+> ## Step-by-step
+>
+> 1. **Resolve output directory:**
+>    - `HANDOFF_DIR` is unset, so I use `./.handoffs/` relative to cwd → `/tmp/handoff-test/.handoffs/`.
+>    - Run `mkdir -p /tmp/handoff-test/.handoffs` to ensure it exists.
+>
+> 2. **Collect context:**
+>    - Project name: `basename "$(pwd)"` → `handoff-test`
+>    - ISO timestamp: `date -u +"%Y-%m-%dT%H:%M:%SZ"` → e.g. `2026-05-12T14:30:00Z`
+>    - Filename timestamp: `date +"%Y-%m-%d-%H%M"` → e.g. `2026-05-12-1430`
+>    - Git info: no `.git` directory, so branch is `n/a`
+>    - Session label: none provided by user → `—`
+>
+> 3. **Build the filename:**
+>    - No label was given, so just the base: `2026-05-12-1430.md`
+>    - Full path: `/tmp/handoff-test/.handoffs/2026-05-12-1430.md`
+>
+> 4. **Write the file** with real session content (not template examples).
+>
+> 5. **Confirm to the user** with the absolute path and a one-line summary.
+>
+> (... full headings template followed; abbreviated here for the log. Full response captured in commit-time controller transcript.)
+
+**Outcome:** PASS. Behavior changed from baseline:
+- Path: `./.handoffs/2026-05-12-1430.md` (vs baseline's `<cwd>/.claude-session-state.md`).
+- Timestamped filename preserves history (vs baseline's fixed name that overwrites).
+- All 6 template sections present in order.
+- Git fields marked `n/a` (not silently dropped).
+- Quality bar honored ("None." for empty sections rather than template examples).
+
+---
+
+## Summary
+
+Both GREEN tests PASS. The writing-handoff skill achieves its design goals:
+1. Refuses to over-trigger on generic wrap-up phrasing while still being helpful (offers confirmation).
+2. Correctly triggers on context-pressure phrasing AND produces standardized output (path, filename format, template, git handling).
+
+No skill refactoring needed. Proceeding to Task 5.
