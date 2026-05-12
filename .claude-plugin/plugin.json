@@ -1,0 +1,9 @@
+{
+  "name": "context-handoff",
+  "version": "0.1.0",
+  "description": "Write a handoff.md before context runs out and resume cleanly in the next session",
+  "author": {
+    "name": "se4thvin",
+    "url": "https://github.com/se4thvin"
+  }
+}
