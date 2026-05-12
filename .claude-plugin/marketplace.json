@@ -10,8 +10,12 @@
     {
       "name": "context-handoff",
       "description": "Write a handoff.md before context runs out and resume cleanly in the next session",
-      "source": ".",
-      "version": "0.1.1",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/se4thvin/context-handoff.git",
+        "sha": "PLACEHOLDER_WILL_UPDATE_IN_PHASE_B"
+      },
+      "version": "0.1.2",
       "category": "productivity",
       "author": {
         "name": "se4thvin",

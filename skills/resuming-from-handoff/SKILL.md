@@ -1,6 +1,6 @@
 ---
 name: resuming-from-handoff
-description: Use when user invokes /resume, says "pick up where we left off", "continue from last session", "what was I working on", or starts a session with a reference to prior work that may be captured in a previous handoff file.
+description: Use when user invokes /recap, says "pick up where we left off", "continue from last session", "what was I working on", or starts a session with a reference to prior work that may be captured in a previous handoff file.
 ---
 
 # Resuming From a Handoff
@@ -12,7 +12,7 @@ Find the most relevant handoff file for the current project, summarize it, and c
 ## When to use
 
 Fire this skill when ANY of:
-- The user invokes `/resume` (with or without a numeric argument).
+- The user invokes `/recap` (with or without a numeric argument).
 - The user says: "pick up where we left off", "continue from last session", "what was I working on", "resume from yesterday".
 - The user starts a session by referencing prior work that's likely captured in a handoff.
 
@@ -34,7 +34,7 @@ Fire this skill when ANY of:
 
    - **Exactly one handoff:** Read it. Show a 3-5 line summary covering: project, timestamp, current task, next steps. Ask: "Continue from these next steps?" Wait for confirmation before acting.
 
-   - **Multiple handoffs:** If the user passed a number (`/resume 2`), skip to that index (1-based, newest-first). Otherwise show a numbered picker:
+   - **Multiple handoffs:** If the user passed a number (`/recap 2`), skip to that index (1-based, newest-first). Otherwise show a numbered picker:
      ```
      Found 3 handoffs:
      1. 2026-05-12 14:30 — "Refactoring auth middleware — two helpers extracted..."
