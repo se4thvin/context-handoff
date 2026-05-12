@@ -68,3 +68,67 @@ Created `/tmp/handoff-resume-test/.handoffs/` with three files (newest first by 
 - The baseline asks rich follow-up questions about "what should I do next." The skill should be more disciplined: load the chosen handoff, summarize in 3-5 lines, ask whether to continue from "Next steps".
 
 The skill needs to enforce: numbered list (1-N, newest first), succinct preview (date + label + first-line of Current task), no auto-loading, no follow-up question fanout.
+
+---
+
+## GREEN: 3-handoff picker scenario with skill present
+**Date:** 2026-05-12
+**Setup:** Full SKILL.md prepended to the same prompt as RED baseline.
+
+**Agent response (verbatim):**
+> Found 3 handoffs:
+> 1. 2026-05-12 14:30 — "Refactoring auth middleware — two helpers extracted, tests passing."
+> 2. 2026-05-12 09:15 [before-refactor] — "About to split the auth middleware into two files."
+> 3. 2026-05-11 17:42 — "WIP: parser bug in token stream."
+>
+> Which one? (1-3, or "q" to cancel)
+
+**Outcome:** PASS. Output matches the skill's specification character-for-character — newest first, optional label in brackets, preview from "Current task", final prompt line. No auto-pick.
+
+---
+
+## GREEN: single-handoff scenario with skill present
+**Date:** 2026-05-12
+**Setup:** cwd `/tmp/handoff-single-test`, `.handoffs/` contains exactly one structured handoff file.
+
+**Agent response (verbatim):**
+> Found 1 handoff in `/tmp/handoff-single-test/.handoffs/`:
+>
+> **handoff-single-test** — 2026-05-12 14:30 UTC
+> - **Current task:** Refactoring auth middleware — two helpers (`verifyToken()`, `loadUserProfile()`) extracted into `src/middleware/auth-helpers.ts`; all 12 unit tests passing; committed as `a1b2c3d`.
+> - **Next steps:** (1) Wire helpers into `authMiddleware()` in `src/middleware/auth.ts`, (2) update integration tests, (3) remove now-redundant inline logic.
+> - **Blockers:** None.
+>
+> Continue from these next steps?
+
+**Outcome:** PASS. Clean 3-5 line summary (project, timestamp, current task, next steps, blockers). Did NOT dump full file. Asked the exact confirmation question the skill prescribes.
+
+---
+
+## GREEN: indexed `/resume 2` scenario with skill present
+**Date:** 2026-05-12
+**Setup:** cwd `/tmp/handoff-resume-test` with 3 handoffs. User says "/resume 2".
+
+**Agent response (verbatim, abbreviated to the user-visible output block — full step-by-step rationale captured in controller transcript):**
+> Loaded handoff 2 of 3: .handoffs/2026-05-12-0915-before-refactor.md
+> (session label: before-refactor, saved 2026-05-12 09:15)
+>
+> Summary:
+> - State at save: about to split the auth middleware into two files — pre-refactor checkpoint.
+> - This is the snapshot taken BEFORE the work captured in today's later handoff (1430), which reports the two helpers already extracted and tests passing.
+> - Picking this one means rewinding to the pre-split starting point rather than continuing from the completed refactor.
+>
+> Heads up: handoff 1 (2026-05-12-1430.md) is newer and shows the refactor as done. Confirm you want to resume from the pre-refactor checkpoint and not the newer one — want me to continue from this handoff's next steps?
+
+**Outcome:** PASS. Correctly parsed the argument, skipped the picker, identified index 2 = `before-refactor`, summarized minimally, asked for confirmation. Bonus: thoughtful note that handoff 1 is newer.
+
+---
+
+## Summary
+
+All three GREEN tests PASS. The `resuming-from-handoff` skill achieves its design goals:
+1. Standardizes the picker format (numbered, newest-first, optional `[label]`, preview from Current task).
+2. Handles the single-handoff case with a clean summary + the prescribed confirmation question.
+3. Honors the indexed-resume optimization (`/resume N` skips the picker) and still asks for confirmation before acting.
+
+No skill refactoring needed. Proceeding to Task 8.
