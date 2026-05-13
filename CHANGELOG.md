@@ -15,7 +15,7 @@ All notable changes to `context-handoff` are documented here. The project follow
 - Implementation history (`docs/specs/`, `docs/plans/`, `docs/tests/`) moved under `docs/development/` to declutter the top-level view.
 
 ### Fixed
-- Absolute path containing real-name path component redacted from the verbatim baseline response in `docs/tests/baseline-writing-handoff.md`.
+- Absolute path containing real-name path component redacted from the verbatim baseline response in `docs/development/tests/baseline-writing-handoff.md`.
 
 ## [0.1.3] — 2026-05-12
 
