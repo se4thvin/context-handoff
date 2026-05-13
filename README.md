@@ -4,14 +4,14 @@ A Claude Code plugin that lets you save your session state before context runs o
 
 ## What it does
 
-When you're getting close to the context limit (or just want to checkpoint), `/handoff` writes a structured Markdown file summarizing what you've done, what's in progress, and what's next. In a new session, `/recap` finds that file, summarizes it, and asks where you want to continue.
+When you're getting close to the context limit (or just want to checkpoint), `/handoff` writes a structured Markdown file summarizing what you've done, what's in progress, and what's next. In a new session, `/handoff-resume` finds that file, summarizes it, and asks where you want to continue.
 
 ```
 > /handoff before-refactor
 ✓ Wrote ./.handoffs/2026-05-12-1430-before-refactor.md
   Captured: 3 files changed, 1 commit, 2 next steps
 
-> /recap
+> /handoff-resume
 Found 3 handoffs:
 1. 2026-05-12 14:30 — "Refactoring auth middleware..."
 2. 2026-05-12 09:15 [before-refactor] — "About to split auth..."
@@ -33,10 +33,8 @@ Which one? (1-3)
 |---------|--------------|
 | `/handoff` | Write a handoff with a timestamp-only filename. |
 | `/handoff <label>` | Write a handoff with `<label>` appended to the filename (slugified). |
-| `/recap` | Show a picker of recent handoffs, or auto-summarize if only one exists (then asks before continuing). |
-| `/recap <n>` | Skip the picker, load handoff #n (1-based, newest first). |
-
-`/recap` is named to avoid colliding with Claude Code's built-in `/resume` (which restores conversation sessions).
+| `/handoff-resume` | Show a picker of recent handoffs, or auto-summarize if only one exists (then asks before continuing). |
+| `/handoff-resume <n>` | Skip the picker, load handoff #n (1-based, newest first). |
 
 You can also just say "write a handoff" or "pick up where we left off" — the skills fire on those phrases too.
 
