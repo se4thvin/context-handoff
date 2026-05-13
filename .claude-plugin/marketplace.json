@@ -13,9 +13,9 @@
       "source": {
         "source": "url",
         "url": "https://github.com/se4thvin/context-handoff.git",
-        "sha": "75cb993d76ef1e0aedb0d2a03ae230d90796546d"
+        "sha": "PLACEHOLDER_PHASE_B"
       },
-      "version": "0.1.3",
+      "version": "0.1.4",
       "category": "productivity",
       "author": {
         "name": "se4thvin",

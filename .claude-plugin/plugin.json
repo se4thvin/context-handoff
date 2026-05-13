@@ -1,6 +1,6 @@
 {
   "name": "context-handoff",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Write a handoff.md before context runs out and resume cleanly in the next session",
   "license": "MIT",
   "author": {
