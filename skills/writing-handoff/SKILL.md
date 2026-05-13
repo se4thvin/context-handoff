@@ -42,7 +42,11 @@ If unsure, ASK the user before writing — a one-line confirmation is cheaper th
 
 3. **Build the filename:**
    - Base: `<filename-timestamp>.md` (e.g., `2026-05-12-1430.md`)
-   - If a label was provided (via `/handoff <label>` or the user's phrasing), slugify it (lowercase, replace non-alphanumerics with `-`, collapse multiple dashes, trim leading/trailing dashes) and append: `2026-05-12-1430-before-refactor.md`.
+   - If a label was provided (via `/handoff <label>` or the user's phrasing), slugify it and append. Use this exact one-liner to get deterministic results across sessions:
+     ```bash
+     SLUG=$(printf '%s' "$LABEL" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g; s/-\{2,\}/-/g; s/^-//; s/-$//' | cut -c1-40)
+     ```
+     This produces ASCII lowercase, hyphens for any non-alphanumeric (including Unicode), collapsed dashes, no leading/trailing dashes, max 40 characters. If the result is empty (e.g. label was `--!--`), drop the label and use only the timestamp filename. Example: label `Before refactor — auth!` → `before-refactor-auth` → filename `2026-05-12-1430-before-refactor-auth.md`.
 
 4. **Write the file using the template below**, populated from the actual conversation so far. Be specific — the next reader has no access to this conversation.
 

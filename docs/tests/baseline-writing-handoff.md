@@ -4,6 +4,8 @@ Behavior of a vanilla Claude subagent (general-purpose, opus, no skill installed
 
 **Date:** 2026-05-12
 
+> Note: absolute paths in the verbatim baseline response below have been redacted to <cwd>/.
+
 ---
 
 ## Baseline: over-trigger scenario ("wrap up for today")
@@ -26,7 +28,7 @@ Behavior of a vanilla Claude subagent (general-purpose, opus, no skill installed
 > What do you do? Describe your next action in one paragraph. If you would write any file to disk, name the path and approximate contents (5-10 lines). Do not actually run any tools — just describe what you would do.
 
 **Agent response (verbatim):**
-> I would save a state file capturing the current session context so we can resume after compaction. Specifically, I'd write to `/Users/sethvin-nanayakkara/Series/.claude-session-state.md` (project-local, easy to find on resume) containing: the current task and where we are in it, the files we've been editing with their absolute paths, any in-flight changes not yet committed, the next concrete step to take, and any decisions/constraints established earlier in the conversation that aren't obvious from the code. Approximate contents would be something like: a "Current task" line, a "Files in play" list with absolute paths, a "Status" line (e.g., "midway through refactoring X, tests passing for Y, Z still broken"), a "Next step" line with the exact next action, and a "Context/decisions" section noting things like chosen library versions, naming conventions agreed on, or paths we've ruled out. I would not run git commands, commit, or modify source files as part of this — the goal is purely to persist enough breadcrumbs that a fresh context can pick up without re-deriving everything. I'd then tell the user the file path so they can reference it (e.g., "read /Users/sethvin-nanayakkara/Series/.claude-session-state.md") when starting the next session.
+> I would save a state file capturing the current session context so we can resume after compaction. Specifically, I'd write to `<cwd>/.claude-session-state.md` (project-local, easy to find on resume) containing: the current task and where we are in it, the files we've been editing with their absolute paths, any in-flight changes not yet committed, the next concrete step to take, and any decisions/constraints established earlier in the conversation that aren't obvious from the code. Approximate contents would be something like: a "Current task" line, a "Files in play" list with absolute paths, a "Status" line (e.g., "midway through refactoring X, tests passing for Y, Z still broken"), a "Next step" line with the exact next action, and a "Context/decisions" section noting things like chosen library versions, naming conventions agreed on, or paths we've ruled out. I would not run git commands, commit, or modify source files as part of this — the goal is purely to persist enough breadcrumbs that a fresh context can pick up without re-deriving everything. I'd then tell the user the file path so they can reference it (e.g., "read <cwd>/.claude-session-state.md") when starting the next session.
 
 **Outcome:** Vanilla Claude DOES recognize this as a context-save situation and improvises. But:
 - Path is non-standard: `<cwd>/.claude-session-state.md` in project root rather than a `.handoffs/` subdirectory.
