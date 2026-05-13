@@ -1,5 +1,9 @@
 # context-handoff
 
+[![Version](https://img.shields.io/github/v/tag/se4thvin/context-handoff?label=version&sort=semver)](https://github.com/se4thvin/context-handoff/releases)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-orange)](https://claude.com/claude-code)
+
 A Claude Code plugin that lets you save your session state before context runs out, and resume cleanly in the next session.
 
 ## What it does
